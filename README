@@ -1,0 +1,12 @@
+Block Breaker is a simple clone of Arkanoid/Breakout written in C and SDL.
+
+Dependencies:
+SDL
+SDL_ttf
+SDL_gfx
+
+Controls:
+Left or Z = Move left
+Right or X = Move right
+Space = Launch the ball
+ESC = Quit
