@@ -28,6 +28,7 @@ bool action_moveright = false;
 
 void game_init()
 {
+    if (use_mouse == true) SDL_ShowCursor(0);
     game_playerinit();
     game_blockscreate();
     game_ballcreate();
@@ -66,17 +67,21 @@ void game_playerinit()
 
 void game_playermove()
 {
-    const int max = 16;
+    if (use_mouse == true) {
+        obj_p.speed = mouse_x - obj_p.x - obj_p.w/2;
+    } else {
+        const int max = 16;
 
-    if(action_moveleft == true && obj_p.speed > -max)
-        obj_p.speed -= 1;
-    else if(action_moveleft == false && obj_p.speed < 0)
-        obj_p.speed += 1;
+        if(action_moveleft == true && obj_p.speed > -max)
+            obj_p.speed -= 1;
+        else if(action_moveleft == false && obj_p.speed < 0)
+            obj_p.speed += 1;
 
-    if(action_moveright == true && obj_p.speed < max)
-        obj_p.speed += 1;
-    else if(action_moveright == false && obj_p.speed > 0)
-        obj_p.speed -= 1;
+        if(action_moveright == true && obj_p.speed < max)
+            obj_p.speed += 1;
+        else if(action_moveright == false && obj_p.speed > 0)
+            obj_p.speed -= 1;
+    }
 
     obj_p.x += obj_p.speed;
 

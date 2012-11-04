@@ -25,6 +25,9 @@ SDL_Surface* screen = NULL;
 TTF_Font* font = NULL;
 SDL_Surface* text_info = NULL;
 bool quit = false;
+int mouse_x = 0;
+int mouse_y = 0;
+bool use_mouse = true;
 
 bool sys_init()
 {
@@ -71,6 +74,8 @@ void sys_surfaceapply( int x, int y, int alpha, SDL_Surface* source, SDL_Surface
 
 void sys_input()
 {
+    SDL_GetMouseState(&mouse_x, &mouse_y);
+
     while(SDL_PollEvent(&event))
     {
         if( event.type == SDL_KEYDOWN )
@@ -80,7 +85,7 @@ void sys_input()
             if(event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == 'x')
                 action_moveright = true;
             if(event.key.keysym.sym == ' ')
-                game_balllaunch();
+                if (use_mouse == false) game_balllaunch();
 
             if(event.key.keysym.sym == SDLK_ESCAPE)
                 quit = true;
@@ -94,6 +99,12 @@ void sys_input()
                 action_moveright = false;
         }
             
+        if( event.type == SDL_MOUSEBUTTONDOWN )
+        {
+            if(event.button.button == 1)
+                if (use_mouse == true) game_balllaunch();
+        }
+
         if(event.type == SDL_QUIT)
         {
             quit = true;

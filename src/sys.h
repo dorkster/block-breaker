@@ -31,6 +31,9 @@ extern SDL_Surface* screen;
 extern TTF_Font* font;
 extern SDL_Surface* text_info;
 extern bool quit;
+extern int mouse_x;
+extern int mouse_y;
+extern bool use_mouse;
 
 SDL_Event event;
 

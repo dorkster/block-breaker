@@ -23,8 +23,18 @@
 #include "draw.h"
 #include "game.h"
 
-int main(void)
+int main(int argc, char* argv[])
 {
+    char c = 0;
+    while (--argc > 0 && (*++argv)[0] == '-') {
+        while ((c = *++argv[0])) {
+            if (c == 'x') {
+                use_mouse = false;
+                break;
+            }
+        }
+    }
+
     if(sys_init() == false) {return 1;}
     if(sys_loadfiles() == false) {return 1;}
 
