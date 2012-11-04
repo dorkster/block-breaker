@@ -17,6 +17,7 @@
 */
 
 #include "SDL/SDL.h"
+#include <stdlib.h>
 #include <time.h>
 
 #include "sys.h"
@@ -24,6 +25,8 @@
 #include "game.h"
 
 int main(int argc, char* argv[]) {
+    srand(time(0));
+
     char c = 0;
     while (--argc > 0 && (*++argv)[0] == '-') {
         while ((c = *++argv[0])) {

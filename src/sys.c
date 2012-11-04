@@ -39,6 +39,8 @@ bool sys_init() {
     if( TTF_Init() == -1 ) { return false; }
     
     SDL_WM_SetCaption("Block Breaker",NULL);
+
+    SDL_WM_GrabInput(SDL_GRAB_ON);
     
     return true;
 }

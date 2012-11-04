@@ -21,3 +21,4 @@ void draw_player();
 void draw_blocks();
 void draw_ball();
 void draw_info();
+void draw_power();

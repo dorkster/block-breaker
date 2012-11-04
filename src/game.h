@@ -19,28 +19,36 @@
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 32
 #define BALL_SIZE 4
+#define POWER_SIZE 8
 
-typedef struct player{
+typedef struct Player{
     int x,y,w,h;
     int speed;
     int score;
     int lives;
-}player;
+}Player;
 
-typedef struct block{
+typedef struct Block{
     int x,y;
     bool alive;
     int color;
-}block;
+}Block;
 
-typedef struct ball{
+typedef struct Ball{
     int x,y;
     int xvel,yvel;
-}ball;
+}Ball;
 
-extern player obj_p;
-extern block obj_b[6][10];
-extern ball obj_l;
+typedef struct Power{
+    int x,y;
+    bool alive;
+    int type;
+}Power;
+
+extern Player player;
+extern Block blocks[6][10];
+extern Ball ball;
+extern Power power;
 
 extern bool action_moveleft;
 extern bool action_moveright;
@@ -59,4 +67,8 @@ void game_blockscreate();
 void game_ballcreate();
 void game_balllaunch();
 void game_ballmove();
-void game_ballcollide();
+
+void game_collide();
+
+void game_powercreate(int x, int y);
+void game_powermove();

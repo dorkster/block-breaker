@@ -30,14 +30,15 @@ void draw_everything() {
     draw_blocks();
     draw_ball();
     draw_info();
+    draw_power();
 }
 
 void draw_player() {
     boxRGBA(screen,
-            obj_p.x,
-            obj_p.y,
-            obj_p.x+obj_p.w,
-            obj_p.y+obj_p.h,
+            player.x,
+            player.y,
+            player.x+player.w,
+            player.y+player.h,
             43,43,43,255
             );
 }
@@ -48,22 +49,22 @@ void draw_blocks() {
 
     for(i=0;i<6;i++) {
         for(j=0;j<10;j++) {
-            if(obj_b[i][j].alive == true) {
-                if(obj_b[i][j].color == 0) {
+            if(blocks[i][j].alive == true) {
+                if(blocks[i][j].color == 0) {
                     boxRGBA(screen,
-                            obj_b[i][j].x+gap,
-                            obj_b[i][j].y+gap,
-                            obj_b[i][j].x+BLOCK_WIDTH-gap,
-                            obj_b[i][j].y+BLOCK_HEIGHT-gap,
+                            blocks[i][j].x+gap,
+                            blocks[i][j].y+gap,
+                            blocks[i][j].x+BLOCK_WIDTH-gap,
+                            blocks[i][j].y+BLOCK_HEIGHT-gap,
                             90,128,114,255
                             );
                 }
-                else if(obj_b[i][j].color == 1) {
+                else if(blocks[i][j].color == 1) {
                     boxRGBA(screen,
-                            obj_b[i][j].x+gap,
-                            obj_b[i][j].y+gap,
-                            obj_b[i][j].x+BLOCK_WIDTH-gap,
-                            obj_b[i][j].y+BLOCK_HEIGHT-gap,
+                            blocks[i][j].x+gap,
+                            blocks[i][j].y+gap,
+                            blocks[i][j].x+BLOCK_WIDTH-gap,
+                            blocks[i][j].y+BLOCK_HEIGHT-gap,
                             109,90,128,255
                             );
                 }
@@ -74,8 +75,8 @@ void draw_blocks() {
 
 void draw_ball() {
     filledEllipseRGBA(screen,
-                      obj_l.x,
-                      obj_l.y,
+                      ball.x,
+                      ball.y,
                       BALL_SIZE,
                       BALL_SIZE,
                       43,43,43,255
@@ -86,10 +87,22 @@ void draw_info() {
     char info[256];
     SDL_Color color = {43,43,43};
 
-    sprintf(info,"Score: %-7d    Lives: %-2d",obj_p.score,obj_p.lives);
+    sprintf(info,"Score: %-7d    Lives: %-2d",player.score,player.lives);
     text_info = TTF_RenderText_Solid(font,info,color);
 
     if(text_info == NULL) return;
     sys_surfaceapply(8,460,255,text_info,screen,NULL);
     SDL_FreeSurface(text_info);
+}
+
+void draw_power() {
+    if (power.alive == false) return;
+
+    short x[4] = { power.x, power.x+POWER_SIZE, power.x, power.x-POWER_SIZE };
+    short y[4] = { power.y-POWER_SIZE, power.y, power.y+POWER_SIZE, power.y };
+
+    filledPolygonRGBA(screen,
+                      x, y,
+                      4,
+                      43, 43, 43, 255);
 }
