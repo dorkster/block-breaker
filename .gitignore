@@ -1,2 +1,2 @@
 block-breaker
-src/*.o
+build/

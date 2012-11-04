@@ -1,17 +1,22 @@
 PROJNAME=block-breaker
-SOURCES=src/draw.c src/game.c src/sys.c src/main.c
+SRCDIR=src
+BUILDDIR=build
+SOURCES=$(SRCDIR)/draw.c $(SRCDIR)/game.c $(SRCDIR)/sys.c $(SRCDIR)/main.c
+OBJECTS=$(BUILDDIR)/draw.o $(BUILDDIR)/game.o $(BUILDDIR)/sys.o $(BUILDDIR)/main.o
 
 CC=gcc
 CFLAGS+=
 LDFLAGS+=-lSDL -lSDL_gfx -lSDL_ttf
-OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE=$(PROJNAME)
-all: $(SOURCES) $(EXECUTABLE)
+all: build $(SOURCES) $(EXECUTABLE)
+
+build:
+	mkdir -p build/
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -Wall -O2 -mms-bitfields -std=c99 -o $@
 
-.c.o:
+$(BUILDDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $< $ $(CFLAGS) -c -Wall -O2 -mms-bitfields -std=c99 -o $@
 
 clean:
