@@ -23,8 +23,7 @@
 #include "draw.h"
 #include "game.h"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     char c = 0;
     while (--argc > 0 && (*++argv)[0] == '-') {
         while ((c = *++argv[0])) {
@@ -35,13 +34,12 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(sys_init() == false) {return 1;}
-    if(sys_loadfiles() == false) {return 1;}
+    if(sys_init() == false) return 1;
+    if(sys_loadfiles() == false) return 1;
 
     game_init();
 
-    while(quit == false)
-    {
+    while(quit == false) {
         startTimer = SDL_GetTicks();
 
         sys_input();
@@ -49,7 +47,7 @@ int main(int argc, char* argv[])
         draw_everything();
 
         // Update the screen
-        if(SDL_Flip(screen) == -1) { return 1; }
+        if(SDL_Flip(screen) == -1) return 1;
         
         // Limit the frame rate
         endTimer = SDL_GetTicks();

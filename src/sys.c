@@ -29,8 +29,7 @@ int mouse_x = 0;
 int mouse_y = 0;
 bool use_mouse = true;
 
-bool sys_init()
-{
+bool sys_init() {
     if(SDL_Init(SDL_INIT_EVERYTHING) == -1) { return false; }
     
     screen = SDL_SetVideoMode(SCREEN_WIDTH,SCREEN_HEIGHT,SCREEN_BPP,SDL_SWSURFACE);
@@ -44,22 +43,19 @@ bool sys_init()
     return true;
 }
 
-bool sys_loadfiles()
-{
+bool sys_loadfiles() {
     font = TTF_OpenFont("./font/LCD_Solid.ttf",16);
-    if(font == NULL) {return false;}
+    if(font == NULL) return false;
 
     return true;
 }
 
-void sys_cleanup()
-{
+void sys_cleanup() {
     TTF_CloseFont(font);
     SDL_Quit();
 }
 
-void sys_surfaceapply( int x, int y, int alpha, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
-{
+void sys_surfaceapply( int x, int y, int alpha, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip ) {
     //Make a temporary rectangle to hold the offsets
     SDL_Rect offset;
 
@@ -72,14 +68,11 @@ void sys_surfaceapply( int x, int y, int alpha, SDL_Surface* source, SDL_Surface
     SDL_BlitSurface( source, clip, destination, &offset );
 }
 
-void sys_input()
-{
+void sys_input() {
     SDL_GetMouseState(&mouse_x, &mouse_y);
 
-    while(SDL_PollEvent(&event))
-    {
-        if( event.type == SDL_KEYDOWN )
-        {
+    while(SDL_PollEvent(&event)) {
+        if( event.type == SDL_KEYDOWN ) {
             if(event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == 'z')
                 action_moveleft = true;
             if(event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == 'x')
@@ -91,22 +84,19 @@ void sys_input()
                 quit = true;
         }
 
-        if( event.type == SDL_KEYUP )
-        {
+        if( event.type == SDL_KEYUP ) {
             if(event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == 'z')
                 action_moveleft = false;
             if(event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == 'x')
                 action_moveright = false;
         }
             
-        if( event.type == SDL_MOUSEBUTTONDOWN )
-        {
+        if( event.type == SDL_MOUSEBUTTONDOWN ) {
             if(event.button.button == 1)
                 if (use_mouse == true) game_balllaunch();
         }
 
-        if(event.type == SDL_QUIT)
-        {
+        if(event.type == SDL_QUIT) {
             quit = true;
         }
     }

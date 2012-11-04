@@ -22,8 +22,7 @@
 #include "draw.h"
 #include "game.h"
 
-void draw_everything()
-{
+void draw_everything() {
     // Fill the screen with black
     SDL_FillRect(screen,NULL, 0xd9d9d9);
     
@@ -33,8 +32,7 @@ void draw_everything()
     draw_info();
 }
 
-void draw_player()
-{
+void draw_player() {
     boxRGBA(screen,
             obj_p.x,
             obj_p.y,
@@ -44,19 +42,14 @@ void draw_player()
             );
 }
 
-void draw_blocks()
-{
+void draw_blocks() {
     int i,j;
     const int gap = 2;
 
-    for(i=0;i<6;i++)
-    {
-        for(j=0;j<10;j++)
-        {
-            if(obj_b[i][j].alive == true)
-            {
-                if(obj_b[i][j].color == 0)
-                {
+    for(i=0;i<6;i++) {
+        for(j=0;j<10;j++) {
+            if(obj_b[i][j].alive == true) {
+                if(obj_b[i][j].color == 0) {
                     boxRGBA(screen,
                             obj_b[i][j].x+gap,
                             obj_b[i][j].y+gap,
@@ -65,8 +58,7 @@ void draw_blocks()
                             90,128,114,255
                             );
                 }
-                else if(obj_b[i][j].color == 1)
-                {
+                else if(obj_b[i][j].color == 1) {
                     boxRGBA(screen,
                             obj_b[i][j].x+gap,
                             obj_b[i][j].y+gap,
@@ -75,14 +67,12 @@ void draw_blocks()
                             109,90,128,255
                             );
                 }
-
             }
         }
     }
 }
 
-void draw_ball()
-{
+void draw_ball() {
     filledEllipseRGBA(screen,
                       obj_l.x,
                       obj_l.y,
@@ -92,15 +82,14 @@ void draw_ball()
                       );
 }
 
-void draw_info()
-{
+void draw_info() {
     char info[256];
     SDL_Color color = {43,43,43};
 
     sprintf(info,"Score: %-7d    Lives: %-2d",obj_p.score,obj_p.lives);
     text_info = TTF_RenderText_Solid(font,info,color);
 
-    if(text_info == NULL){return;}
+    if(text_info == NULL) return;
     sys_surfaceapply(8,460,255,text_info,screen,NULL);
     SDL_FreeSurface(text_info);
 }

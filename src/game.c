@@ -26,24 +26,20 @@ ball obj_l;
 bool action_moveleft = false;
 bool action_moveright = false;
 
-void game_init()
-{
+void game_init() {
     if (use_mouse == true) SDL_ShowCursor(0);
     game_playerinit();
     game_blockscreate();
     game_ballcreate();
 }
 
-void game_logic()
-{
-    if(obj_p.lives == 0)
-    {
+void game_logic() {
+    if(obj_p.lives == 0) {
         game_playerinit();
         game_blockscreate();
         game_ballcreate();
     }
-    else if(game_blocktotal == 0)
-    {
+    else if(game_blocktotal == 0) {
         game_blockscreate();
         game_ballcreate();
         obj_p.score += 5000;
@@ -54,8 +50,7 @@ void game_logic()
     game_ballmove();
 }
 
-void game_playerinit()
-{
+void game_playerinit() {
     obj_p.w = 100;
     obj_p.h = 8;
     obj_p.x = SCREEN_WIDTH/2 - obj_p.w/2;
@@ -65,8 +60,7 @@ void game_playerinit()
     obj_p.lives = 5;
 }
 
-void game_playermove()
-{
+void game_playermove() {
     if (use_mouse == true) {
         obj_p.speed = mouse_x - obj_p.x - obj_p.w/2;
     } else {
@@ -91,15 +85,12 @@ void game_playermove()
         obj_p.x = SCREEN_WIDTH - obj_p.w;
 }
 
-void game_blockscreate()
-{
+void game_blockscreate() {
     game_blocktotal = 60;
     int i,j;
 
-    for(i=0;i<6;i++)
-    {
-        for(j=0;j<10;j++)
-        {
+    for(i=0;i<6;i++) {
+        for(j=0;j<10;j++) {
             obj_b[i][j].alive = true;
             obj_b[i][j].x = j*BLOCK_WIDTH;
             obj_b[i][j].y = i*BLOCK_HEIGHT;
@@ -112,8 +103,7 @@ void game_blockscreate()
     }
 }
 
-void game_ballcreate()
-{
+void game_ballcreate() {
     obj_l.x = obj_p.x+(obj_p.w/2);
     obj_l.y = obj_p.y-BALL_SIZE;
     obj_l.xvel = 0;
@@ -121,10 +111,8 @@ void game_ballcreate()
     game_holdingball = true;
 }
 
-void game_balllaunch()
-{
-    if(game_holdingball == true)
-    {
+void game_balllaunch() {
+    if(game_holdingball == true) {
         game_holdingball = false;
         obj_l.xvel = obj_p.speed/2;
         obj_l.yvel = -4;
@@ -133,8 +121,7 @@ void game_balllaunch()
 
 void game_ballmove()
 {
-    if(game_holdingball == true)
-    {
+    if(game_holdingball == true) {
         obj_l.x = obj_p.x+(obj_p.w/2);
         obj_l.y = obj_p.y-BALL_SIZE;
     }
@@ -143,35 +130,29 @@ void game_ballmove()
     obj_l.y += obj_l.yvel;
 }
 
-void game_ballcollide()
-{
+void game_ballcollide() {
     // Keep the ball on the screen
-    if(obj_l.x-BALL_SIZE <= 0)
-    {
+    if(obj_l.x-BALL_SIZE <= 0) {
         obj_l.x = 0 + BALL_SIZE;
         obj_l.xvel *= -1;
     }
-    if(obj_l.x+BALL_SIZE >= SCREEN_WIDTH)
-    {
+    if(obj_l.x+BALL_SIZE >= SCREEN_WIDTH) {
         obj_l.x = SCREEN_WIDTH - BALL_SIZE;
         obj_l.xvel *= -1;
     }
-    if(obj_l.y-BALL_SIZE <= 0)
-    {
+    if(obj_l.y-BALL_SIZE <= 0) {
         obj_l.y = 0 + BALL_SIZE;
         obj_l.yvel *= -1;
     }
 
     // Respawn the ball if it goes past the paddle
-    if(obj_l.y-BALL_SIZE >= SCREEN_HEIGHT)
-    {
+    if(obj_l.y-BALL_SIZE >= SCREEN_HEIGHT) {
         obj_p.lives -= 1;
         game_ballcreate();
     }
 
     // Bounce off the paddle
-    if(sys_collide(obj_p.x,obj_p.y,obj_p.w,obj_p.h,obj_l.x,obj_l.y,BALL_SIZE) == true)
-    {
+    if(sys_collide(obj_p.x,obj_p.y,obj_p.w,obj_p.h,obj_l.x,obj_l.y,BALL_SIZE) == true) {
         obj_l.y = obj_p.y - BALL_SIZE;
         obj_l.yvel *=-1;
         
@@ -186,26 +167,20 @@ void game_ballcollide()
     // Destroy blocks when they're hit with the ball
     int i,j;
 
-    for(i=0;i<6;i++)
-    {
-        for(j=0;j<10;j++)
-        {
-            if(sys_collide(obj_b[i][j].x,obj_b[i][j].y,BLOCK_WIDTH,BLOCK_HEIGHT,obj_l.x,obj_l.y,BALL_SIZE) == true && obj_b[i][j].alive == true)
-            {
+    for(i=0;i<6;i++) {
+        for(j=0;j<10;j++) {
+            if(sys_collide(obj_b[i][j].x,obj_b[i][j].y,BLOCK_WIDTH,BLOCK_HEIGHT,obj_l.x,obj_l.y,BALL_SIZE) == true && obj_b[i][j].alive == true) {
                 obj_b[i][j].alive = false;
                 game_blocktotal -= 1;
                 obj_p.score += 100;
 
-                if(obj_b[i][j].x <= obj_l.x - obj_l.xvel && obj_b[i][j].x+BLOCK_WIDTH >= obj_l.x - obj_l.xvel)
-                {
+                if(obj_b[i][j].x <= obj_l.x - obj_l.xvel && obj_b[i][j].x+BLOCK_WIDTH >= obj_l.x - obj_l.xvel) {
                     obj_l.yvel *= -1;
                     obj_l.y += obj_l.yvel;
                 }
-                else
-                {
+                else {
                     obj_l.xvel *= -1;
                 }
-
             }
         }
     }
